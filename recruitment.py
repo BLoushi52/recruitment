@@ -16,6 +16,9 @@ years_of_experience = int(input("How many years of expericence do you have? ")) 
 # This function returns a list of skills.
 # This is the list that the user will choose from
 # Add at least 3 random skills for the user to select from
+from ast import Return
+
+
 def get_skills():
     skills = ["Python", "C++", "Javascript", "Juggling", "Running", "Eating"]
     return skills
@@ -25,10 +28,9 @@ def get_skills():
 # It takes the list of skills as an argument and prints them numbered
 # This function doesn't return anything
 def show_skills(skills):
-    num = 0
-    for skill in skills:
-        num = num + 1
-        print(f"{num}. {skill}")
+    print()
+    for index, skill in enumerate(skills, 1):
+        print(f"{index}. {skill}")
         
 
 
@@ -40,8 +42,9 @@ def show_skills(skills):
 # For example, if the user enters 1, the first skill in your list of skills will be added to the list
 # Return a list of the two skills that the user inputted
 def get_user_skills(skills):
+    show_skills(skills)
     user_skills = []
-    skill_1 = input("Choose a skill from above by entering its number:")
+    skill_1 = input(f"\nChoose a skill from above by entering its number:")
     if skill_1 in skills:
         user_skills.append(skill_1)
 
@@ -56,25 +59,40 @@ def get_user_skills(skills):
 # This function will get the user's cv from their inputs
 # HINT: Use previous built functions to get the skills from the user
 def get_user_cv(skills):
-    user_cv = {}
-    user_cv["name"]                 =     input("What's your name? ")                           #string
-    user_cv["age"]                  = int(input("How old are you? "))                           #integer
-    user_cv["years_of_experience"]  = int(input("How many years of expericence do you have? ")) #integer
-    user_cv["skills"]               = get_user_skills(skills)
+    
+    cv = {}
+    cv["name"]                 =     input("What's your name? ")                           #string
+    cv["age"]                  = int(input("How old are you? "))                           #integer
+    cv["years_of_experience"]  = int(input("How many years of expericence do you have? ")) #integer
+    cv["skills"]               = get_user_skills(skills)
  
-    return user_cv
+    return cv
 
 
-# This functions checks if the cv is acceptable or not, by checking the age, experience and skills and return a boolean (True or False) based on that
+# This function checks if the cv is acceptable or not, by checking the age, experience and skills and return a boolean (True or False) based on that
 def check_acceptance(cv, desired_skill):
-    ...
+    if 25 <= cv["age"] <= 40:
+        if cv["years_of_experience"] > 3:
+            if  desired_skill in cv["skills"]:
+                return True
+    else:
+        return False
 
 
 def main():
     # Write your main logic here by combining the functions above into the
     # desired outcome
-    show_skills(get_skills())
-    get_user_skills(get_skills())
+    print(f"\n Welcome to the special recruitment program, please answer the following questions:\n")
+    skills = get_skills()
+   
+    cv = get_user_cv(skills)
+
+    if check_acceptance(cv, skills[2]):
+        print(f"You are accepted, {cv['name']}!")
+    else:
+        print("You are rejected! , good luck.")
+ 
+
 
 
 
